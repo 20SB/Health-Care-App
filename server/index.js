@@ -15,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 const passport = require("passport");
 const passportJWT = require("./config/passport-jwt-startegy");
 
+// Serve static files from the 'assets' directory
+app.use(express.static('./assets'));
+
 // Specify the directory where views are located
 app.set("views", "./views");
 

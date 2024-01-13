@@ -13,6 +13,7 @@ const development = {
         },
     },
     mailFrom: process.env.MAIL_FROM_DEV,
+    serverUrl: process.env.SERVER_URL_DEV, 
 };
 
 module.exports = development;

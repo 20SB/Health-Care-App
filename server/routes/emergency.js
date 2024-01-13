@@ -46,6 +46,11 @@ router.put("/update_contact/:emergencyContactId", upload.single("image"),emergen
 // Delete an emergency contact
 router.delete("/:id/delete_contact/:emergencyContactId",emergencyController.deleteEmergencyContact);
 
+// Route to get emergency contacts of particular user
+router.get("/get_emergency_contacts/:id", emergencyController.getEmergencyContacts);
+
+// Route for alerting emergency contacts of a particular user
+router.post("/alert_emergency_contacts/:id", emergencyController.sendEmergencyNotifications);
 
 // Export the router to be used in the main router (index.js)
 module.exports = router;

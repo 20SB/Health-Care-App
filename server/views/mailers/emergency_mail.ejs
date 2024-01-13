@@ -1,0 +1,43 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div
+    style="
+        width: 100%;
+        display: flex;
+        background: black;
+        justify-content: left;
+        padding: 20px;
+        box-sizing: border-box;
+        color: white;
+    "
+>
+    <h1>Wellness Medical Center</h1>
+</div>
+<div style="width: 100%; padding: 20px; box-sizing: border-box; text-align: justify">
+    <h2>Emergency Alert: Assistance Required</h2>
+
+    <p>Dear <strong><%= user.name %>,</strong></p>
+
+    <p>
+        You are in the Emergency Contact list of <%= patient.name %>. This is an urgent alert to
+        inform you that <%= patient.name %> is in need of assistance. Please take immediate action
+        to ensure the safety and well-being of the patient.
+    </p>
+
+    <p>Patient Details:</p>
+    <div
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center"
+    >
+        <strong>Patient Name:</strong> <%= patient.name %>
+        <strong><a href="<%= location %>">Present Location</a></strong>
+    </div>
+
+    <p>Thank you for your prompt attention to this matter.</p>
+
+    <p>Sincerely,</p>
+    <p>Your Organization</p>
+</div>

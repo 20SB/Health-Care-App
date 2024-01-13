@@ -121,28 +121,3 @@ module.exports.updateUser = async (req, res) => {
     }
 };
 
-// Controller function to fetch all emergency contacts of a user
-module.exports.getEmergencyContacts = async (req, res) => {
-    try {
-        const userId = req.params.id;
-
-        // Find the user in the database based on the provided user ID
-        const user = await User.findById(userId).populate("emergencyContacts");
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found", success: false });
-        }
-
-        // Extract emergency contacts
-        const emergencyContacts = user.emergencyContacts;
-
-        return res.status(200).json({
-            message: "Emergency contacts fetched successfully",
-            emergencyContacts,
-            success: true,
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Internal Server Error" });
-    }
-};

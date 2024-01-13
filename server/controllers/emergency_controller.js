@@ -5,6 +5,13 @@ const env = require("../config/environment");
 const fs = require("fs");
 const emergencyMailer  = require("../mailers/emergency_mailer");
 
+// Generate a location link based on latitude and longitude
+function generateLocationLink(latitude, longitude) {
+    const locationLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+    
+    return locationLink;
+}
+
 // Controller function to add an emergency contact to a user
 module.exports.addEmergencyContact = async (req, res) => {
     try {
@@ -143,10 +150,37 @@ module.exports.deleteEmergencyContact = async (req, res) => {
     }
 };
 
+// Controller function to fetch all emergency contacts of a user
+module.exports.getEmergencyContacts = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        // Find the user in the database based on the provided user ID
+        const user = await User.findById(userId).populate("emergencyContacts");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", success: false });
+        }
+
+        // Extract emergency contacts
+        const emergencyContacts = user.emergencyContacts;
+
+        return res.status(200).json({
+            message: "Emergency contacts fetched successfully",
+            emergencyContacts,
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 // Controller function to fetch all emergency contacts of a user and send emails and messages
 module.exports.sendEmergencyNotifications = async (req, res) => {
     try {
         const userId = req.params.id;
+        const { latitude, longitude } = req.body;
 
         // Find the user in the database based on the provided user ID
         const user = await User.findById(userId).populate("emergencyContacts");
@@ -162,26 +196,7 @@ module.exports.sendEmergencyNotifications = async (req, res) => {
             return res.status(404).json({ message: "No emergency contacts found", success: false });
         }
 
-        // Configure Twilio client
-        // const twilioClient = twilio(config.twilioAccountSid, config.twilioAuthToken);
-
-        // Send emails and messages to emergency contacts
-        for (const contact of contacts) {
-            // Send email
-            if (contact.email) {
-                console.log("contact***",  contact);
-                // await emergencyMailer.newEmergency(contact);
-            }
-
-            // Send SMS
-            // if (contact.phone) {
-            //     await twilioClient.messages.create({
-            //         body: "This is an emergency notification.",
-            //         to: contact.phone,
-            //         from: config.twilioPhoneNumber,
-            //     });
-            // }
-        }
+        await emergencyMailer.newEmergency(contacts, user, generateLocationLink(latitude, longitude));
 
         return res.status(200).json({
             message: "Emergency notifications sent successfully",

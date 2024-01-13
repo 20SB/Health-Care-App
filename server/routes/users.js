@@ -46,8 +46,6 @@ router.post("/register", upload.single("image"), usersController.createUser);
 // Route to create a new user
 router.post("/update/:id", upload.single("image"),upload.single("image"), usersController.updateUser);
 
-// Route to login
-router.get("/get_emergency_contacts/:id", usersController.getEmergencyContacts);
 
 // Export the router to be used in the main router (index.js)
 module.exports = router;

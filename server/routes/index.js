@@ -10,6 +10,7 @@ router.get('/', homeController.home);
 // Use the users router for handling user-related routes
 router.use('/users', require('./users.js'));
 router.use('/emergency', require('./emergency.js'));
+router.use('/appointment', require('./appointment.js'));
 
 // Export the main router to be used in your application
 module.exports = router;
