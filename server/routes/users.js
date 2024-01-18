@@ -44,7 +44,7 @@ router.post("/login", usersController.login);
 router.post("/register", upload.single("image"), usersController.createUser);
 
 // Route to create a new user
-router.post("/update/:id", upload.single("image"),upload.single("image"), usersController.updateUser);
+router.post("/update/:id", upload.single("image"), usersController.updateUser);
 
 
 // Export the router to be used in the main router (index.js)
